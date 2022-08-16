@@ -1,0 +1,26 @@
+Languages used :
+bash for automation
+C for running experiments
+python for making graphs
+
+Requirements :
+ifconfig and tc commands must be available for bash
+Python3 required
+numpy and matplotlib required
+
+Running the experiments :
+1. Keep automation.sh, client.c, server.c and make_graphs.py files in the same directory
+2. From this directory, call ./automation.sh with 1 command line args - starting port of server:
+	./automation.sh starting_server_port
+	Keep the starting_server_port say > 5000 so as not to clash with predefined ports
+
+
+Automation part - 
++ After each run of any experiment, the bash script increments server's port by 1 because the last used port remains in TIME_OUT state. So, 
+	a) Keep server port > say 2000 so as to not clash with predefined ports.
+	b) Make sure that ports from server_port (inclusive) to server_port + 360 (exclusive) have not been used in the last few (say 5) minutes.
++ The script calls diff send.txt and recv.txt after each run to check whether they are equal.
++ Results for each experiment will be stored in a file named results appended by the parameter values.
++ automation.sh finally calls a python script named make_graphs.py which creates, displays and stores the required graphs / plots.
++ Progress per individual experiment is shown too! (in the form of runs done / total runs)
++ We had thought of making the 20 runs for one experiment concurrent. But, this would require that each receiver have its own recv.txt (for eg - recv1.txt, recv2.txt, etc). We were not sure whether this was allowed. So, we did not pursue this any further.
